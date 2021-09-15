@@ -24,11 +24,11 @@ pub struct Assets {
 impl Assets {
     pub fn load(frame: &mut epi::Frame<'_>) -> Self {
         Self {
-            generals: Image::open("data/ButtonGen.png", frame),
-            zero_hour: Image::open("data/ButtonZH.png", frame),
-            remastered: Image::open("data/ButtonZH+.png", frame),
-            mods: Image::open("data/ButtonMod.png", frame),
-            settings: Image::open("data/ButtonSettings.png", frame),
+            generals: Image::open(include_bytes!("../data/ButtonGen.png"), frame),
+            zero_hour: Image::open(include_bytes!("../data/ButtonZH.png"), frame),
+            remastered: Image::open(include_bytes!("../data/ButtonZH+.png"), frame),
+            mods: Image::open(include_bytes!("../data/ButtonMod.png"), frame),
+            settings: Image::open(include_bytes!("../data/ButtonSettings.png"), frame),
         }
     }
 }

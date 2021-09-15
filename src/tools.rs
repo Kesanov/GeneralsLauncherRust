@@ -22,20 +22,17 @@ pub struct Image {
 }
 
 impl Image {
-    pub fn open(file: &str, frame: &mut epi::Frame<'_>) -> Self {
-        if let Some(image) = image::open(file).ok() {
-            let buffer = image.to_rgba8();
-            let size   = (image.width() as usize, image.height() as usize);
-            let data   = buffer.into_vec()
-                .chunks(4)
-                .map(|p| Color32::from_rgba_unmultiplied(p[0], p[1], p[2], p[3]))
-                .collect_vec();
+    pub fn open(bytes: &[u8], frame: &mut epi::Frame<'_>) -> Self {
+        let image  = image::load_from_memory(bytes).unwrap();
+        let buffer = image.to_rgba8();
+        let size   = (image.width() as usize, image.height() as usize);
+        let data   = buffer.into_vec()
+            .chunks(4)
+            .map(|p| Color32::from_rgba_unmultiplied(p[0], p[1], p[2], p[3]))
+            .collect_vec();
 
-            let texture = frame.tex_allocator().alloc_srgba_premultiplied(size, &data);
-            Self { size, data, texture }
-        } else {
-            Self::default()
-        }
+        let texture = frame.tex_allocator().alloc_srgba_premultiplied(size, &data);
+        Self { size, data, texture }
     }
 }
 
